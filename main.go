@@ -63,11 +63,23 @@ func handleMessages() {
 	}
 }
 
+
+func getPort() string {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = ":3000"
+	} else {
+		port = ":" + port
+	}
+
+	return port
+}
+
 func main() {
 	go handleMessages()
 	http.HandleFunc("/", handleConnection)
 
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(getPort(), nil)
 	if err != nil {
 		log.Fatal("Error starting server: ", err)
 	}
